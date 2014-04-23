@@ -839,6 +839,12 @@
                     ctrl.name = ctrl.id;
                     tbCell.appendChild(ctrl);
                 }
+                else if (settings.columns[y].type == 'display') {
+                    //
+                    ctrl = tbCell;
+                    ctrl.id = settings.idPrefix + '_' + settings.columns[y].name + '_' + uniqueIndex;
+                    ctrl.name = ctrl.id;
+                }
                 else if (-1 != settings.columns[y].type.search(/^(color|date|datetime|datetime\-local|email|month|number|range|search|tel|time|url|week)$/)) {
                     ctrl = document.createElement('input');
                     try {
@@ -1185,6 +1191,9 @@
             if (typeof (settings.columns[colIndex].customSetter) == 'function') {
                 settings.columns[colIndex].customSetter(settings.idPrefix, columnName, uniqueIndex, data);
             }
+        }
+        else if (type == 'display') {
+            getCellCtrl(type, settings.idPrefix, columnName, uniqueIndex).innerHTML = (data == null ? '' : data);
         }
         else {
             getCellCtrl(type, settings.idPrefix, columnName, uniqueIndex).value = (data == null ? '' : data);
